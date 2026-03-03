@@ -1,0 +1,40 @@
+.invis {
+  display: none;
+}
+
+.chatbox {
+  display: block; /*for some reason inline-block breaks overflow-y: auto and its annoying*/
+  border: 1px solid grey;
+  width: 512px;
+  height: 512px;
+  padding: 8px;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+}
+
+.stuff {
+  display: block;
+  border: 1px solid grey;
+  width: 512px;
+  height: 112px;
+  padding: 8px;
+}
+
+#messagebox {
+  display: block;
+  width: 512px;
+  padding: 8px;
+  height: 24px;
+}
+
+#logout {
+  margin-top: 8px;
+}
+
+.message {
+  padding: 4px;
+}
+
+.message:hover {
+  background-color: rgba(212, 212, 212, 0.432);
+}
