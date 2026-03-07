@@ -1,30 +1,65 @@
 .invis {
   display: none;
 }
+:root {
+  --namecolor: rgb(50, 238, 144);
+  --selfname: rgb(136, 255, 24);
+  --chatbox-color: rgb(54, 54, 54);
+  --border-color: rgb(50, 238, 144);
+  --message-hover: rgb(63, 63, 63);
+  --chatbox-text: white;
+  --logout-color: rgb(255, 79, 79);
+  --alt: rgb(49, 65, 158);
+  --button-color: rgb(50, 238, 144);
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  margin: 0px;
+  background-color: var(--chatbox-color);
+}
 
 .chatbox {
   display: block; /*for some reason inline-block breaks overflow-y: auto and its annoying*/
-  border: 1px solid grey;
-  width: 512px;
-  height: 512px;
+  border: 1px solid var(--border-color);
+  /* width: calc(100vw - 18px); if sidemenu isnt open */
+  width: calc(100vw - 318px);
+  height:calc(100vh - 59px);
   padding: 8px;
   overflow-y: auto;
   overflow-wrap: break-word;
+  background-color: var(--chatbox-color);
+  color: var(--chatbox-text);
 }
 
 .stuff {
   display: block;
-  border: 1px solid grey;
-  width: 512px;
-  height: 112px;
+  border: 1px solid var(--border-color);
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-color: var(--chatbox-color);
+  width: calc(282px);
+  height: calc(100vh - 18px);
   padding: 8px;
 }
 
 #messagebox {
   display: block;
-  width: 512px;
+  /* width: calc(100vw - 18px); if sidemenu isnt open */
+  width: calc(100vw - 318px);
   padding: 8px;
   height: 24px;
+  border: 1px solid var(--border-color);
+  border-top: none;
+  background-color: var(--chatbox-color);
+  color: var(--chatbox-text);
+}
+
+#messagebox:focus {
+  outline: none;
 }
 
 #logout {
@@ -36,5 +71,71 @@
 }
 
 .message:hover {
-  background-color: rgba(212, 212, 212, 0.432);
+  background-color: var(--message-hover);
+}
+
+.author {
+  color: var(--namecolor);
+}
+
+.self {
+  color: var(--selfname);
+}
+
+label {
+  color: var(--namecolor);
+}
+
+button {
+  border: 2px solid var(--button-color);
+  padding: 12px;
+  background-color: rgba(0, 255, 255, 0);
+  border-radius: 15px;
+  color: var(--button-color);
+  cursor: pointer;
+  font-family: "Lato", sans-serif;
+  font-weight: 400; 
+  font-style: normal;
+}
+
+#signin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* the classic centering method */
+}
+
+#logout {
+  border: 1px solid var(--logout-color);
+  background-color: rgba(0, 255, 255, 0);
+  color: var(--logout-color);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-weight: 400;
+}
+/*did i mention i hate css*/
+
+.manual {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
+  height: 40vh;
+  border: 1px solid var(--border-color);
+  z-index: 6741;
+  color: var(--namecolor);
+  padding: 16px;
+  background-color: var(--chatbox-color);
+  border-radius: 15px;
+}
+
+input {
+  border-color: var(--border-color);
+  box-shadow: none !important;
 }

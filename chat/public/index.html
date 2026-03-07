@@ -24,19 +24,32 @@
     please forgive my disorganization
     -->
     <link rel="stylesheet" href="style.css"></link>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   <body>
     <div id="main" class="invis">
       <div class="chatbox"></div>
-      <input id="messagebox" placeholder="send a message" maxlength="256"></input>
-    </div>
-    <div class="stuff">
-      <label>Name: </label><input id="username"></input><br>
-      <button id="logout">Logout</button>
+      <input id="messagebox" placeholder="message 'chat1'" maxlength="256"></input>
+      <div class="stuff">
+        <label>Name: </label><input id="username"></input><br>
+        <label>Theme:</label>
+        <button class="themeswitcher" id="blue">1</button>
+        <button class="themeswitcher" id="green">2</button>
+        <button class="themeswitcher" id="red">3</button>
+        <button class="themeswitcher" id="brown">4</button>
+        <br><br>
+        <button id="manualtoggle" onclick="">Manual</button><br>
+        <button id="logout">Logout</button>
+      </div>
     </div>
     <div class="signinstuff">
-      <button id="signin">Sign in with Google</button>
+      <button id="signin">Log in with Google</button>
+    </div>
+    <div class="manual invis">
+      <h2>Manual!!!</h2><br>
     </div>
   </body>
   <script src="stuff.js" type="module"></script>
