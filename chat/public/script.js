@@ -24,6 +24,15 @@ let displayName;
 let snapshotListener;
 let room = "chat1";
 
+manualElement("/room <name>", "changes the active chat room");
+manualElement("/message-spacing <# of pixels, default=12>", "increases the margin above and below messages");
+manualElement("/icon-width <# of pixels, default=22>", "sets the width (and height) of user avatars");
+
+changeTheme("brown"); // i like this one :)
+
+sendMessage(`/message-spacing ${localStorage.getItem("--message-spacing") != null ? localStorage.getItem("--message-spacing") : 12 }`);
+sendMessage(`/icon-width ${localStorage.getItem("--icon-size") != null ? localStorage.getItem("--icon-size") : 22 }`);
+
 auth.onAuthStateChanged(function(u) {
   if(u) {
     user = u;
@@ -62,30 +71,19 @@ document.addEventListener("keydown", async function(event) {
 })
 
 function sendMessage(text) {
-//  if(!text.length || text.length > 256) return;
-  if(text.length > 256) return alert("message too long (must be < 256 characters)");
+  if(text.length > 1024) return alert("message too long (must be < 1025 characters)");
 
-  if(text.startsWith("/room")) {
-    const arg = text.split(" ")[1];
-    if(!arg) {
-      alert("select a room to switch to");
-      return;
-    }
-    if(arg.length>64) return alert("room name too long");
-    room = arg;
-    document.getElementById("messagebox").placeholder = `message '${arg}'`;
-    receiveChat();
-    return;
-  }
+  if(checkCommands(text) == true) return;
 
   const message = {
     content: text,
     author: {
       name: displayName,
-      id: user.uid
+      id: user.uid,
+      avatar: user.photoURL
     },
   }
-  //messageElement(message
+  //messageElement(message)
   writeMessage(message);
 }
 
@@ -95,6 +93,7 @@ async function writeMessage(message) {
     author: {
       name: message.author.name,
       id: message.author.id,
+      avatar: message.author.avatar,
     },
     created_at: serverTimestamp(),
   }).then(() => {
@@ -113,8 +112,9 @@ async function receiveChat() {
       messageElement({
         content: `room has been changed to ${room}`,
         author: {
-          name: "???",
-          id:"67!!!!",
+          name: "PoutineBot",
+          id:"69420",
+          avatar: "/poutine.jpg"
         }
       })
       const messages = snapshot.docs.map(m => m.data()).reverse();
@@ -157,8 +157,7 @@ themeButtons.forEach(button => {
 });
 
 
-manualElement("/room <name>", "changes the active chat room");
-  document.querySelector("#manualtoggle").addEventListener("click", function() {
+document.querySelector("#manualtoggle").addEventListener("click", function() {
   const manual = document.querySelector(".manual");
   if(manual.classList.contains("invis")) {
     manual.classList.remove("invis");
@@ -166,3 +165,60 @@ manualElement("/room <name>", "changes the active chat room");
     manual.classList.add("invis");
   }
 });
+
+function checkCommands(text) {
+  if(text.startsWith("/room")) {
+    const arg = text.split(" ")[1];
+    if(!arg) {
+      alert("select a room to switch to");
+      return;
+    }
+    if(arg.length>64) return alert("room name too long"); // ok im not gonna enforce this in firebase rules ill just hope you guys dont blow it up
+    room = arg;
+    document.getElementById("messagebox").placeholder = `message '${arg}'`;
+    document.getElementById("chatname").textContent = `#${arg}`;
+    receiveChat();
+    return true;
+  }
+
+  if(text.startsWith("/message-spacing")) {
+    const arg = text.split(" ")[1];
+    if(!Number(arg)) {
+      alert("invalid input");
+      return;
+    }
+    localStorage.setItem("--message-spacing", arg);
+    document.documentElement.style.setProperty("--y-padding", arg+"px");
+    scrollToBottom(true);
+    return true;
+  }
+
+//   if(text.startsWith("/change-font")) {
+//     const link = text.split(" ")[1];
+//     if(!link) {
+//       alert("invalid input");
+//       return true;
+//     }
+//     const fontName = text.split(" ")[1];
+//     if(!fontName) {
+//       alert("invalid input");
+//       return true;
+//     }
+// //    localStorage.setItem("--font", arg);
+//     document.querySelector("head").innerHTML += `<link href="${link}" rel="stylesheet">`;
+//     document.documentElement.style.setProperty("--font", fontName);
+//     return true;
+//   }
+  
+  if(text.startsWith("/icon-width")) {
+    const arg = text.split(" ")[1];
+    if(!Number(arg)) {
+      alert("invalid input");
+      return true;
+    }
+    localStorage.setItem("--icon-size", arg);
+    document.documentElement.style.setProperty("--icon-size", arg+"px");
+    scrollToBottom(true);
+    return true;
+  }
+}

@@ -31,10 +31,13 @@
   </head>
   <body>
     <div id="main" class="invis">
+      <h1 id="chatname">#chat1</h1>
       <div class="chatbox"></div>
-      <input id="messagebox" placeholder="message 'chat1'" maxlength="256"></input>
+      <img class="poutine" src="poutine.png">
+      <input id="messagebox" placeholder="message 'chat1'" maxlength="1024"></input>
       <div class="stuff">
         <label>Name: </label><input id="username"></input><br>
+        <!-- <label>Avatar: </label><input id="avatar" type="file"></input> -->
         <label>Theme:</label>
         <button class="themeswitcher" id="blue">1</button>
         <button class="themeswitcher" id="green">2</button>
@@ -49,7 +52,7 @@
       <button id="signin">Log in with Google</button>
     </div>
     <div class="manual invis">
-      <h2>Manual!!!</h2><br>
+      <h2>Manual!!!</h2>
     </div>
   </body>
   <script src="stuff.js" type="module"></script>

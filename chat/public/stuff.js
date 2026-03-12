@@ -31,13 +31,13 @@ const themes = {
   },
   "brown": {
     chatboxColor: "rgb(229,222,207)",
-    borderColor: "rgb(217,189,165)",
+    borderColor: "rgb(122, 106, 92)",
     nameColor: "rgb(38, 46, 90)",
-    messageHover: "#b7e5ff83",
+    messageHover: "#887b7849",
     chatboxText: "rgb(53, 63, 122)",
     logoutColor: "rgb(53, 63, 122)",
     alt: "green",
-    buttonColor: "rgb(217,189,165)"
+    buttonColor: "rgb(122, 106, 92)",
   }
 }
 // behold the one instance of jquery usage in this entire project
@@ -52,11 +52,15 @@ export function messageElement(message) {
   let timeInfo = `${date.toLocaleDateString("en-US", {dateStyle: "short"})} ${date.toLocaleTimeString("en-US", {timeStyle:"short"})}`;
   timeInfo = timeInfo.replace(`${new Date().toLocaleDateString("en-US", {dateStyle: "short"})} `, "")
 
-  
+  console.log(message);
   const $box = $('<div>').addClass('message');
-  const $author = $('<span>').addClass('author').text(message.author.name+": ");
+  const $author = $('<span>').addClass('author').text(message.author.name+":");
+  const $avatar = $('<img>').addClass('avatar').attr("src", message.author.avatar);
+//  const $avatar = $('<img>').addClass('avatar').attr("src", "https://render.fineartamerica.com/images/rendered/default/poster/8/7.5/break/images/artworkimages/medium/3/carpenter-brut-logo-band-connor-wilson.jpg");
   const $content = $('<span>').text(message.content);
-  const $timestamp = $('<span>').text(" - " + timeInfo);
+  const $timestamp = $('<span style="margin-left: 4px;" class="timestamp">').text("@" + timeInfo);
+  
+  $box.append($avatar);
   $box.append($author);
   $box.append($content);
   $box.append($timestamp);
@@ -92,11 +96,10 @@ export function changeTheme(t) {
 
 export function scrollToBottom(f) {
   const chatbox = document.querySelector(".chatbox");
-  if(chatbox.scrollHeight-chatbox.scrollTop < 400 || !f) {
-    console.log(chatbox.scrollHeight);
-    console.log(chatbox.scrollTop);
+  if(chatbox.scrollHeight-chatbox.scrollTop < 400 && !f) {
     return;
   }
   chatbox.scrollTop = chatbox.scrollHeight;
+  setTimeout(function() {chatbox.scrollTop = chatbox.scrollHeight;}, 167)
 }
 
