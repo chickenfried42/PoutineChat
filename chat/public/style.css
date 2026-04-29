@@ -87,6 +87,45 @@ body {
   align-items: center;
 }
 
+.confirmAvatar {
+  background-color: var(--chatbox-color);
+  position: absolute;
+  width: 11rem;
+  height: 20rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--border-color);
+  color: var(--border-color);
+  border-radius: 15px;
+}
+
+.confirmAvatar button {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  left: 0%;
+  border-color: var(--logout-color);
+  color: var(--logout-color);
+  border-radius: 15px;
+}
+
+.confirmAvatar button:hover {
+  opacity: .7;
+}
+
+.confirmAvatar h3 {
+  text-align: center;
+}
+
+.confirmAvatar img {
+  background-color: rgba(128, 128, 128, 0.253);
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 15px;
+  border: 0px;
+}
+
 .message:hover {
   background-color: var(--message-hover);
 }
@@ -94,6 +133,7 @@ body {
 .author {
   color: var(--namecolor);
   margin-right: 4px;
+  cursor: pointer;
 }
 
 .avatar {
@@ -101,6 +141,7 @@ body {
   right: var(--icon-size);
   margin-right: 4px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .self {
@@ -123,7 +164,7 @@ button {
   font-style: normal;
 }
 
-#signin {
+.signinstuff {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -158,6 +199,7 @@ label {
   padding: 16px;
   background-color: var(--chatbox-color);
   border-radius: 15px;
+  overflow-y: auto;
 }
 
 input {
@@ -203,4 +245,45 @@ h1 {
   /* width: calc(100vw - 318px);
   height:calc(100vh - 59px - 56px); */
   z-index: -69420;
+}
+
+.profile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18rem;
+  height: 13rem;
+  border: 1px solid var(--border-color);
+  z-index: 6942;
+  color: var(--namecolor);
+  padding: 16px;
+  background-color: var(--chatbox-color);
+  border-radius: 15px;
+  overflow-y: auto;
+}
+
+.profile h1 {
+  font-size: 5%;
+}
+
+.profile img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+}
+
+.close {
+  border-radius: 15px;
+  border: 2px solid var(--border-color);
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transform: translate(50%, -50%); */
 }

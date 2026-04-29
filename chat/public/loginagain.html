@@ -1,0 +1,54 @@
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(229,222,207);
+    color: rgb(122, 106, 92);
+    align-items: center;
+    padding: 16px;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    margin: 0px;
+  }
+
+  input {
+    border: 2px solid rgb(122, 106, 92);
+    border-radius: 4px;
+    width: 21rem;
+    height: 3rem;
+    background-color: rgba(255, 255, 255, 0);
+  }
+  input::placeholder {
+    text-align: center;
+  }
+
+  button {
+    margin-top: 2rem;
+    border: 2px solid rgb(122, 106, 92);
+    color: rgb(122, 106, 92);
+    border-radius: 15px;
+    cursor: pointer;
+    width: 8rem;
+    height: 3rem;
+    font-size: 22px;
+    background-color: rgba(255, 255, 255, 0);
+    font-family: "Lato", sans-serif;
+  }
+
+  button:hover {
+    opacity: 0.7;
+  }
+</style>
+
+<h1>Poutine Chat - Sign In</h1>
+<h2>Email:</h2>
+<input id="e" placeholder="PoutineChat doesn't care about your private data"></input>
+<h2>Password:</h2>
+<input id="p" placeholder="nobody will know your password. not even us"></input>
+<button>Log In</button>
+<a style="margin-top: 32px;" href="/emailandpass.html">Don't have an account? Click here.</a>
+<script type="module" src="auth3.js"></script>

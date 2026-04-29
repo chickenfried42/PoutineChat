@@ -54,8 +54,8 @@ export function messageElement(message) {
 
   console.log(message);
   const $box = $('<div>').addClass('message');
-  const $author = $('<span>').addClass('author').text(message.author.name+":");
-  const $avatar = $('<img>').addClass('avatar').attr("src", message.author.avatar);
+  const $author = $(`<span id="${message.author.id}">`).addClass('author').text(message.author.name+":");
+  const $avatar = $(`<img id="${message.author.id}">`).addClass('avatar').attr("src", message.author.avatar);
 //  const $avatar = $('<img>').addClass('avatar').attr("src", "https://render.fineartamerica.com/images/rendered/default/poster/8/7.5/break/images/artworkimages/medium/3/carpenter-brut-logo-band-connor-wilson.jpg");
   const $content = $('<span>').text(message.content);
   const $timestamp = $('<span style="margin-left: 4px;" class="timestamp">').text("@" + timeInfo);

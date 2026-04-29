@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
 import { updateProfile, getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp, doc, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js'
+import { getFirestore, collection, addDoc, getDoc, getDocs, setDoc, onSnapshot, serverTimestamp, doc, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js'
 import { changeTheme, manualElement, messageElement, scrollToBottom } from "./stuff.js";
 
 const firebaseConfig = {
@@ -33,7 +33,10 @@ changeTheme("brown"); // i like this one :)
 sendMessage(`/message-spacing ${localStorage.getItem("--message-spacing") != null ? localStorage.getItem("--message-spacing") : 12 }`);
 sendMessage(`/icon-width ${localStorage.getItem("--icon-size") != null ? localStorage.getItem("--icon-size") : 22 }`);
 
-auth.onAuthStateChanged(function(u) {
+const bio = document.getElementById("bio");
+const av = document.getElementById("avatar");
+
+auth.onAuthStateChanged(async function(u) {
   if(u) {
     user = u;
     console.log(user);
@@ -41,24 +44,95 @@ auth.onAuthStateChanged(function(u) {
     document.getElementById("main").classList.remove("invis");
     displayName = user.displayName;
     document.getElementById("username").value = displayName;
+
+    receiveChat();
+
+    const userDoc = await getUserDoc(user.uid);
+    if(userDoc == "nonexistent") {
+      await updateUserProfile();
+    } else if(userDoc.bio)   {
+      bio.value = userDoc.bio;
+    }
+
   } else {
     console.log("not logged in");
   }
 }) // yesterday i was going to spend more time on this project but i walked into a small cactus i kid you not
 
-document.getElementById("username").addEventListener("change", function(event) {
+let customAvatarURL;
+
+if(localStorage.getItem('customavatar')) {
+  customAvatarURL = localStorage.getItem('customavatar');
+}
+
+async function updateUserProfile() {
+  const newUser = await setDoc(doc(db, "users", user.uid), {
+    joined_At: serverTimestamp(),
+    displayName: user.displayName,
+    avatar: !customAvatarURL ? user.photoURL : customAvatarURL,
+    bio: bio.value,
+  });
+  return newUser;
+}
+
+async function getUserDoc(id) {
+  const docRef = doc(db, "users", id);
+  const userDoc = await getDoc(docRef);
+
+  if(userDoc.exists()) {
+    return userDoc.data();
+  } else {
+    return "nonexistent";
+  }
+}
+
+document.getElementById("username").addEventListener("change", async function(event) {
   if(!event.target.value) {
     event.target.value = displayName;
   }
   displayName = event.target.value;
   updateProfile(auth.currentUser, {
-    displayName: displayName
+    displayName: displayName,
   }).then(() => {
-
+    updateUserProfile();
   }).catch((err) => {
     alert('your username failed to update ' + err); //hope noone ever gets this error
   })
 });
+
+bio.addEventListener("change", async function(event) {
+  updateUserProfile();
+});
+
+function getAvatarBase64() {
+  const avatarFile = av['files'][0];
+  const reader = new FileReader();
+  let base64String;
+  let imageBase64Stringsep;
+  let output;
+  reader.onload = function() {
+    console.log(reader.result);
+    customAvatarURL = reader.result;
+    console.log(customAvatarURL);
+  }
+  return reader.readAsDataURL(avatarFile);
+}
+
+av.addEventListener('change', async function(event) {
+  const confirmImage = document.querySelector("#confirmImage");
+  confirmImage.src="";
+  getAvatarBase64();
+  setTimeout(function() {
+    confirmImage.src=customAvatarURL;
+    document.querySelector(".confirmAvatar").classList.remove("invis");
+  }, 250);
+})
+
+document.getElementById("okay").addEventListener("click", async function() {
+  updateUserProfile();
+  localStorage.setItem("customavatar", customAvatarURL);
+  document.querySelector(".confirmAvatar").classList.add("invis");
+})
 
 document.addEventListener("keydown", async function(event) {
   const messagebox = document.getElementById("messagebox");
@@ -80,7 +154,7 @@ function sendMessage(text) {
     author: {
       name: displayName,
       id: user.uid,
-      avatar: user.photoURL
+      avatar: customAvatarURL ? customAvatarURL : user.photoURL
     },
   }
   //messageElement(message)
@@ -135,6 +209,7 @@ async function receiveChat() {
     });
   })
 }
+
 
 receiveChat();
 
@@ -222,3 +297,28 @@ function checkCommands(text) {
     return true;
   }
 }
+
+const profileDiv = document.querySelector(".profile");
+
+document.addEventListener("click", async function(event) {
+  const element = event.target;
+  if(element.classList.contains("author") || element.classList.contains("avatar")) {
+    const user = await getUserDoc(element.id);
+    if(user == "nonexistent") {
+      return alert("this user doesn't have a profile, maybe their account was created before the update :((");
+    }
+    let date = user.joined_At.toDate()
+    let timeInfo = `${date.toLocaleDateString("en-US", {dateStyle: "short"})}`;
+    // timeInfo = timeInfo.replace(`${new Date().toLocaleDateString("en-US", {dateStyle: "short"})} `, "")
+    console.log(date)
+    document.getElementById("profileAvatar").src=user.avatar;
+    document.getElementById("profileUsername").textContent="@"  +user.displayName;
+    document.getElementById("profileBio").textContent=user.bio;
+    document.getElementById("joinedAt").textContent="Joined at "+timeInfo;
+    profileDiv.classList.remove("invis");
+  }
+  if(element.classList.contains("close")) {
+    profileDiv.classList.add("invis");
+  }
+})
+

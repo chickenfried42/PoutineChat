@@ -37,22 +37,38 @@
       <input id="messagebox" placeholder="message 'chat1'" maxlength="1024"></input>
       <div class="stuff">
         <label>Name: </label><input id="username"></input><br>
-        <!-- <label>Avatar: </label><input id="avatar" type="file"></input> -->
+        <label>Avatar: </label><input id="avatar" accept=".png, .jpg, .webp" type="file"></input>
         <label>Theme:</label>
         <button class="themeswitcher" id="blue">1</button>
         <button class="themeswitcher" id="green">2</button>
         <button class="themeswitcher" id="red">3</button>
         <button class="themeswitcher" id="brown">4</button>
-        <br><br>
+        <label>Bio: </label><input id="bio" placeholder="this goes on your profile"></input><br><br>
         <button id="manualtoggle" onclick="">Manual</button><br>
+        <br>
         <button id="logout">Logout</button>
       </div>
     </div>
     <div class="signinstuff">
-      <button id="signin">Log in with Google</button>
+      <button id="signin">Log in with Google</button> or
+      <button id="signin2" onclick="window.location='/emailandpass.html'">Sign up with Email and Password</button>
+      or
+      <button id="signin3" onclick="window.location='/loginagain.html'">Already have an account? Sign In</button>
     </div>
     <div class="manual invis">
       <h2>Manual!!!</h2>
+    </div>
+    <div class="profile invis">
+      <button class="close">X</button>
+      <img id="profileAvatar" src=""><h2 id="profileUsername">@fisheater74</h2>
+      <p id="profileBio"></p>
+      <p id="joinedAt">Joined at: 3/2/26</p>
+      <!-- <button>DM User</button> -->
+    </div>
+    <div class="confirmAvatar invis">
+      <h3>Avatar Changed:</h3>
+      <img id="confirmImage" src="">
+      <button id="okay">Okay</button>
     </div>
   </body>
   <script src="stuff.js" type="module"></script>
